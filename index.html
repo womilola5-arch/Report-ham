@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Much Dem Collect? - NIMASA BEAP 2026</title>
+<meta name="description" content="Talk am for Pidgin, Yoruba, Hausa, Igbo, English. Made by a driver pikin for drivers.">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--green:#008751;--green2:#006B3F;--cream:#FFFEF7;--ink:#111827;--muted:#6b7280;--border:#e7e5e4}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:"DM Sans",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6}
+h1,h2{font-family:"Plus Jakarta Sans",sans-serif}
+.topbar{height:6px;background:linear-gradient(90deg,var(--green) 0 33%, #fff 33% 66%, var(--green) 66% 100%)}
+.header{background:var(--green);color:white;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.header h1{margin:0;font-size:22px;letter-spacing:-0.02em}
+.header p{margin:2px 0 0;font-size:13px;opacity:0.92}
+.badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);padding:6px 10px;border-radius:999px;font-size:11px}
+.wrap{max-width:1060px;margin:0 auto;padding:18px 16px 40px}
+.card{background:white;border:1px solid var(--border);border-radius:18px;box-shadow:0 4px 24px rgba(0,0,0,.05)}
+.card-pad{padding:18px}
+.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#57534e;font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.select,textarea{width:100%;border-radius:12px;border:1px solid var(--border);background:white;font-family:inherit}
+.select{height:42px;padding:0 12px;font-size:14px}
+textarea{min-height:120px;padding:14px;font-size:16px;resize:vertical;line-height:1.5}
+textarea:focus,.select:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(0,135,81,.12)}
+.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.row{display:grid;grid-template-columns:1fr;gap:16px;margin-top:16px}
+@media(min-width:900px){.row{grid-template-columns:1.05fr.95fr}}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{border:1px solid var(--border);background:#fffcf5;border-radius:999px;padding:7px 12px;font-size:12.5px;cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--green);background:#f0fdf4}
+.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;align-items:center}
+.btn{height:44px;padding:0 18px;border-radius:999px;border:1px solid transparent;font-weight:600;font-size:14px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.btn-primary{background:var(--green);color:white}
+.btn-primary:hover{background:var(--green2)}
+.btn-ghost{background:white;border-color:var(--border);color:var(--ink)}
+.btn-ghost:hover{background:#fafaf9}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.human-confirm{background:#f0fdf4;border:1px dashed #86efac;border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:14px}
+.mono{font-family: ui-monospace, SFMono-Regular, Menlo, monospace}
+.json-box{background:#0a0a0a;color:#e5e7eb;border-radius:12px;padding:14px;overflow:auto;font-size:13px;line-height:1.7}
+.k{color:#a3a3a3}.v-string{color:#86efac}.v-number{color:#fde68a}.v-bool{color:#93c5fd}.v-null{color:#fca5a5}
+.small{font-size:11px;color:var(--muted)}
+.footer{margin-top:18px;text-align:center;font-size:11px;color:#a8a29e}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="header">
+  <div>
+    <h1>How Much Dem Collect? 🇳🇬</h1>
+    <p>Talk am for Pidgin, Yoruba, Hausa, Igbo, English. We go write am down properly.</p>
+  </div>
+  <div class="badge">Made by a driver pikin for drivers • NIMASA BEAP 2026</div>
+</div>
+
+<div class="wrap">
+  <div class="row">
+    <div class="card">
+      <div class="card-pad">
+        <div class="label"><span>💬 Wetin happen for road?</span><span id="langBadge" class="small"></span></div>
+
+        <div style="display:flex;gap:8px;margin-bottom:10px">
+          <select id="mode" class="select">
+            <option value="auto">Auto - I go detect</option>
+            <option value="lagos" selected>Lagos Street (Pidgin + Yoruba)</option>
+            <option value="hausa">Arewa (Hausa)</option>
+            <option value="igbo">East (Igbo)</option>
+            <option value="english">Standard English</option>
+          </select>
+        </div>
+
+        <textarea id="input" placeholder="E.g. 'Agbero collect 500 for Oshodi this morning'... just talk how e happen"></textarea>
+        <div class="hint">No need big grammar, just talk am as e happen for road. We no dey store your voice.</div>
+
+        <div class="chips" id="chips"></div>
+
+        <div class="btns">
+          <button id="parseBtn" class="btn btn-primary">✍️ Write Am Down</button>
+          <button id="clearBtn" class="btn btn-ghost">Clear</button>
+          <span class="small">Works offline. No data sent.</span>
+        </div>
+
+        <div style="margin-top:16px;border-top:1px dashed var(--border);padding-top:12px">
+          <div class="small" style="margin-bottom:6px">Try small:</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="small">Pidgin: dem, collect, wole owo</span><span class="small">•</span>
+            <span class="small">Hausa: sun karba, kudi</span><span class="small">•</span>
+            <span class="small">Igbo: ha nara, ego</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="display:flex;flex-direction:column">
+      <div class="card-pad" style="border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center">
+        <div style="display:flex;gap:8px;align-items:center">
+          <strong style="font-size:12px;letter-spacing:.08em;text-transform:uppercase">Wetin We Hear</strong>
+          <span id="blueBadge" style="font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid #e7e5e4"></span>
+        </div>
+        <button id="copyBtn" class="btn btn-ghost" style="height:32px;padding:0 12px;font-size:12px">Copy this story</button>
+      </div>
+      <div class="card-pad" style="flex:1;display:flex;flex-direction:column;gap:12px">
+        <div id="humanConfirm" class="human-confirm" style="display:none"></div>
+        <div id="json" class="json-box mono">{"hint": "Type something like 'Agbero collect 500 for Oshodi'"}</div>
+        <div class="small">What rider sees: the green box on top. What NIMASA judges see: the black box (hidden from riders until you copy).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">Built BY a 15-year-old builder from Lagos • Mobile-first • Works offline • Green-White-Green 💚🤍💚</div>
+</div>
+
+<script>
+const QUICK=["Agbero collect 500 for Oshodi this morning","Police collect 1000 for Berger without receipt","Taskforce collected 2000 at Apapa port without receipt","Wole owo 300 for Mile 2","Sun karba 500 a Oshodi"];
+const LOCS=[{l:"Oshodi",k:["oshodi"]},{l:"Berger",k:["berger"]},{l:"Mile 2",k:["mile 2","mile2"]},{l:"Apapa Jetty",k:["apapa","jetty","port"]},{l:"Onitsha",k:["onitsha"]},{l:"Kano",k:["kano"]},{l:"CMS",k:["cms"]}];
+function detectLang(s){ s=s.toLowerCase(); if(s.includes("wole")||s.includes("owo")||s.includes("dem")||s.includes("collect")) return "yoruba_mix/pidgin (Lagos Street)"; if(s.includes("sun")||s.includes("kudi")||s.includes("karba")) return "hausa_mix (Arewa)"; if(s.includes("nara")||s.includes("ego")) return "igbo_mix (East)"; return "english/pidgin"; }
+function parse(raw){
+  const lower=raw.toLowerCase();
+  const m=raw.match(/₦?\s*([0-9][0-9,]*)\s*(?:naira|₦)?/i);
+  const amount=m?parseInt(m[1].replace(/,/g,""),10):null;
+  let location=null; for(const o of LOCS){ if(o.k.some(k=>lower.includes(k))){ location=o.l; break; } }
+  let other=null;
+  if(lower.includes("agbero")) other="agbero";
+  else if(lower.includes("police")) other="police";
+  else if(lower.includes("lastma")) other="lastma";
+  else if(lower.includes("task")) other="task_force";
+  else if(lower.includes("jetty")) other="jetty_attendant";
+  else if(lower.includes("owo")||lower.includes("wole")) other="agbero";
+  else if(lower.includes("dan sanda")) other="police";
+  let event_type="levy";
+  if(other==="police"||other==="lastma") event_type="enforcement_stop";
+  if(other==="agbero") event_type="levy";
+  if(lower.includes("jetty")) event_type="jetty_access_fee";
+  let reporter="commuter";
+  if(lower.includes("driver")||lower.includes("danfo")||lower.includes("stop me")) reporter="danfo_driver";
+  if(lower.includes("goods")||lower.includes("load")) reporter="trader";
+  if(lower.includes("boat")||lower.includes("jetty")) reporter="waterway_trader";
+  let transport="road_transport";
+  if(lower.includes("jetty")||lower.includes("boat")) transport="water_transport";
+  if(lower.includes("danfo")) transport="danfo";
+  let ctx="intra-city_commute"; if(transport==="water_transport") ctx="waterway_logistics";
+  let claimed=null;
+  if(other==="agbero") claimed="park/loading fee";
+  if(other==="police") claimed="alleged traffic violation";
+  if(event_type==="jetty_access_fee") claimed="jetty access / loading permit";
+  let issue=null;
+  if(lower.includes("no receipt")||amount) issue="Reported payment without a receipt";
+  if(lower.includes("jetty")) issue="access_barrier_to_blue_economy";
+  const blue=lower.includes("jetty")||lower.includes("boat")||lower.includes("apapa")||transport==="water_transport";
+  let time=null;
+  if(lower.includes("morning")) time="today_morning"; else if(lower.includes("afternoon")) time="afternoon";
+  else if(lower.includes("evening")||lower.includes("night")) time="evening"; else if(lower.includes("yesterday")) time="yesterday"; else if(raw) time="today";
+  let conf=0.62; if(amount) conf+=0.12; if(location) conf+=0.1; if(other) conf+=0.08; conf=Math.min(0.93,Math.max(0.51,conf)); conf=Math.round(conf*100)/100;
+  let desc=`Reporter reports ${other?other+" ":""}collection${amount?` of ${amount}`:""}${location?` at ${location}`:""}.`;
+  if(lower.includes("jetty")&&lower.includes("goods")) desc=`Traders required to pay access fee before loading goods at jetty${location?` (${location})`:""}.`;
+  else if(other==="police"&&amount) desc=`Enforcement stop reported at ${location||"unspecified location"} with cash collection of ${amount} NGN and no receipt mentioned.`;
+  else if(other==="agbero") desc=`Informal levy of ${amount||"unspecified amount"} NGN collected by agbero at ${location||"motor park"} this morning.`;
+  const lang=detectLang(lower);
+  return {
+    detected_language: lang,
+    event_type, reporter_type: reporter, other_actor_type: other, location,
+    amount, currency: amount?"NGN":null, payment_status: (lower.includes("collect")||amount)?"paid":"attempted",
+    transport_type: transport, transport_context: ctx,
+    event_description: desc, claimed_reason: claimed, potential_issue: issue,
+    blue_economy_relevance: blue? "Reported charge affecting movement through a port/jetty" : false, time_hint: time, confidence: conf>=0.8?"high":conf>=0.6?"medium":"low", raw_text: raw
+  };
+}
+function renderJSON(obj){
+  const el=document.getElementById("json");
+  let html="{\n";
+  const entries=Object.entries(obj);
+  entries.forEach(([k,v],i)=>{
+    let valStr="", cls="v-null";
+    if(v===null){valStr="null"; cls="v-null";}
+    else if(typeof v==="number"){valStr=v; cls="v-number";}
+    else if(typeof v==="boolean"){valStr=v; cls="v-bool";}
+    else {valStr=JSON.stringify(v); cls="v-string";}
+    html+=` <span class="k">"${k}"</span>: <span class="${cls}">${valStr}</span>${i<entries.length-1?",":""}\n`;
+  });
+  html+="}";
+  el.innerHTML=html;
+}
+function updateHuman(parsed){
+  const hc=document.getElementById("humanConfirm");
+  if(!parsed.amount &&!parsed.location){ hc.style.display="none"; return; }
+  hc.style.display="block";
+  const actor=parsed.other_actor_type||"someone";
+  const amt=parsed.amount?`₦${parsed.amount.toLocaleString()}`:"some money";
+  const loc=parsed.location||"for road";
+  hc.innerHTML=`So na <b>${actor}</b> collect <b>${amt}</b> for <b>${loc}</b>? <span style="color:#15803d">We don write am down.</span> <span style="font-size:11px;color:#6b7280">You talk like: ${parsed.detected_language}</span>`;
+  const blueBadge=document.getElementById("blueBadge");
+  if(parsed.blue_economy_relevance && parsed.blue_economy_relevance!==false){ blueBadge.textContent="Blue Economy 🌊"; blueBadge.style.background="#e0f2fe"; blueBadge.style.borderColor="#bae6fd"; blueBadge.style.color="#0369a1"; }
+  else { blueBadge.textContent="Road"; blueBadge.style.background="#fafaf9"; blueBadge.style.borderColor="#e7e5e4"; blueBadge.style.color="#57534e"; }
+  document.getElementById("langBadge").textContent=parsed.detected_language?`You talk like: ${parsed.detected_language}`:"";
+}
+const input=document.getElementById("input");
+const modeSel=document.getElementById("mode");
+const chipsEl=document.getElementById("chips");
+QUICK.forEach(t=>{
+  const b=document.createElement("button"); b.className="chip"; b.textContent=`Try: ${t.length>28?t.slice(0,28)+"…":t}`; b.onclick=()=>{ input.value=t; doParse(); }; chipsEl.appendChild(b);
+});
+function doParse(){
+  const txt=input.value.trim(); if(!txt){ renderJSON({hint:"Type something like 'Agbero collect 500 for Oshodi'"}); document.getElementById("humanConfirm").style.display="none"; return; }
+  const p=parse(txt);
+  const mode=modeSel.value;
+  if(mode!=="auto"){
+    const map={lagos:"yoruba_mix/pidgin (Lagos Street)", hausa:"hausa_mix (Arewa)", igbo:"igbo_mix (East)", english:"english"};
+    p.detected_language = map[mode]||p.detected_language;
+  }
+  window._lastParsed=p;
+  renderJSON(p);
+  updateHuman(p);
+}
+document.getElementById("parseBtn").onclick=doParse;
+document.getElementById("clearBtn").onclick=()=>{ input.value=""; doParse(); };
+document.getElementById("copyBtn").onclick=()=>{
+  const data=window._lastParsed; if(!data) return;
+  navigator.clipboard.writeText(JSON.stringify(data,null,2)).then(()=>{
+    const b=document.getElementById("copyBtn"); const old=b.textContent; b.textContent="Copied ✓"; setTimeout(()=>b.textContent=old,1200);
+  });
+};
+input.addEventListener("keydown", e=>{ if((e.ctrlKey||e.metaKey)&&e.key==="Enter") doParse(); });
+doParse();
+</script>
+</body>
+</html>
